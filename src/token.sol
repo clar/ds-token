@@ -52,6 +52,11 @@ contract DSToken is DSTokenBase(0), DSStop {
         _supply = sub(_supply, wad);
     }
 
+    // owner can transfer token even stop,
+    function ownerTransfer(address dst, uint wad)  note returns (bool) {
+        return super.transfer(dst, wad);
+    }
+
     // Optional token name
 
     bytes32   public  name = "";
