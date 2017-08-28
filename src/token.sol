@@ -19,16 +19,9 @@ contract DSToken is DSTokenBase(0), DSStop {
 
     bytes32  public  symbol;
     uint256  public  decimals = 18; // standard token precision. override to customize
-    address  public  generator;
-
-    modifier onlyGenerator {
-        if(msg.sender!=generator) throw;
-        _;
-    }
 
     function DSToken(bytes32 symbol_) {
         symbol = symbol_;
-        generator=msg.sender;
     }
 
     function transfer(address dst, uint wad) stoppable note returns (bool) {
@@ -59,8 +52,8 @@ contract DSToken is DSTokenBase(0), DSStop {
         _supply = sub(_supply, wad);
     }
 
-    // owner can transfer token even stop,
-    function generatorTransfer(address dst, uint wad) onlyGenerator note returns (bool) {
+    // can transfer token even stop
+    function authTransfer(address dst, uint wad) auth note returns (bool) {
         return super.transfer(dst, wad);
     }
 
